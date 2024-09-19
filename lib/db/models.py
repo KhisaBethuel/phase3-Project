@@ -7,7 +7,7 @@ class Category:
         self.id = id
         self.name = name
 
-    
+    #name validation
     @property
     def name(self):
         return self._name
@@ -125,3 +125,35 @@ class Product:
                         (self.name, self.category_id, self.price, self.quantity, self.id))
         conn.commit()
         conn.close()
+        
+    # method to get a unique Product from the products table
+    @classmethod
+    def get(cls, id):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM products WHERE id = ?', (id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return cls(id=row[0], name=row[1], category_id=row[2], price=row[3], quantity=row[4])
+        return None
+
+    
+    #method to get all products from the products table
+    @classmethod
+    def all(cls):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM products')
+        rows = cursor.fetchall()
+        conn.close()
+        return [cls(id=row[0], name=row[1], category_id=row[2], price=row[3], quantity=row[4]) for row in rows]
+
+    #deleting a product from the product
+    def delete(self):
+        if self.id:
+            conn = get_connection()
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM products WHERE id = ?', (self.id,))
+            conn.commit()
+            conn.close()
