@@ -24,4 +24,18 @@ def list_all_products():
     for product in products:
         print(f"ID: {product.id}, Name: {product.name}, Category ID: {product.category_id}, Price: {product.price}, Quantity: {product.quantity}")
 
+def search_category_by_name(name):
+    categories = Category.all()
+    return [cat for cat in categories if cat.name.lower() == name.lower()]
 
+def search_product_by_name(name):
+    products = Product.all()
+    return [prod for prod in products if prod.name.lower() == name.lower()]
+
+def search_product_by_category(category_id):
+    products = Product.all()
+    return [prod for prod in products if prod.category_id == category_id]
+
+def count_products_in_category(category_id):
+    products = search_product_by_category(category_id)
+    return len(products)
