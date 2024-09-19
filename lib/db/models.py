@@ -28,6 +28,37 @@ class Category:
             cursor.execute('UPDATE categories SET name = ? WHERE id = ?', (self.name, self.id))
         conn.commit()
         conn.close()
+    
+    # method to get a single category from the database
+    @classmethod
+    def get(cls, id):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM categories WHERE id = ?', (id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return cls(id=row[0], name=row[1])
+        return None
+
+    # method to retrive the all categories from the database
+    @classmethod
+    def all(cls):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM categories')
+        rows = cursor.fetchall()
+        conn.close()
+        return [cls(id=row[0], name=row[1]) for row in rows]
+
+    #method to delete a category from the category table
+    def delete(self):
+        if self.id:
+            conn = get_connection()
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM categories WHERE id = ?', (self.id,))
+            conn.commit()
+            conn.close()
 
 #class product for products table
 class Product:
@@ -62,7 +93,7 @@ class Product:
             raise ValueError("Price must be a non-negative number.")
         self._price = value
 
-    #pquantity
+    #quantity
     @property
     def quantity(self):
         return self._quantity
