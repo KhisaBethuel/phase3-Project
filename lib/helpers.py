@@ -1,5 +1,7 @@
 from db.models import Category, Product
 
+# most of the functions here are have names explaining what they do
+
 
 def add_category(name):
     category = Category(name=name)
@@ -39,3 +41,24 @@ def search_product_by_category(category_id):
 def count_products_in_category(category_id):
     products = search_product_by_category(category_id)
     return len(products)
+
+def update_category(id, name):
+    category = Category.get(id)
+    if category:
+        category.name = name
+        category.save()
+        print(f"Category ID {id} updated to name '{name}'")
+    else:
+        print(f"Category ID {id} not found")
+
+def update_product(id, name, category_id, price, quantity):
+    product = Product.get(id)
+    if product:
+        product.name = name
+        product.category_id = category_id
+        product.price = price
+        product.quantity = quantity
+        product.save()
+        print(f"Product ID {id} updated with name '{name}', category ID {category_id}, price {price}, and quantity {quantity}")
+    else:
+        print(f"Product ID {id} not found")
