@@ -50,7 +50,10 @@ if __name__ == '__main__':
         elif choice == '6':
             category_id = int(input("Enter the category ID: "))
             count = count_products_in_category(category_id)
-            print(f"There are {count} products in category ID {category_id}")
+            if count > 1:
+                print(f"There are {count} products in category ID {category_id}")
+            else:
+                print(f"There is {count} product in category ID {category_id}")
         elif choice == '7':
             name = input("Enter the new category name: ")
             add_category(name)

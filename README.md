@@ -1,8 +1,5 @@
 # PHASE3 FINAL PROJECT : PRODUCTS INVENTORY CLI STORE
 
-
-
-
 ## Prerequisites
 
 - For this phase 3 project, you will create a CLI and ORM application in Python. The major learning goals of project include;
